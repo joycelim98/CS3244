@@ -12,12 +12,15 @@ with jsonlines.open('instances_small.jsonl') as reader:
         instance_id = obj["id"]
         title = obj["targetTitle"]
         description = obj["targetDescription"]
+        content = obj['targetParagraphs']
+        content = " ".join(content)
         keywords = obj["targetKeywords"]
 
         data[instance_id] = {
                 "id" : instance_id,
                 "title" : title,
                 "description" : description,
+                "content" : content,
                 "keywords" : keywords
                 }
 
@@ -40,13 +43,13 @@ with jsonlines.open('truth.jsonl') as reader:
         data[instance_id]["truthMode"] = truthMode
         data[instance_id]["label"] = label
 
-
+"""
 for key in data:
     print(key)
     for obj in data[key]:
         print(obj, ":", data[key][obj])
     #print("id: %s; content: %s" % (key, value))
-
+"""
 
 output_file = open("instances_extracted.jsonl", "w")
 with jsonlines.Writer(output_file) as writer:

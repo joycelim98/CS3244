@@ -8,7 +8,7 @@ import pandas as pd
 
 # to read extracted data from jsonl file
 def read_data(fileName):
-    data = [["", "id", "title", "description", "keywords", "truthMean", "truthMedian", "truthMode", "label"]]
+    data = [["", "id", "title", "description", "content", "keywords", "truthMean", "truthMedian", "truthMode", "label"]]
     count = 1
     
     with jsonlines.open(fileName) as reader:
@@ -16,13 +16,14 @@ def read_data(fileName):
             instance_id = obj["id"]
             title = obj["title"]
             description = obj["description"]
+            content = obj["content"]
             keywords = obj["keywords"]
             truthMean = obj["truthMean"]
             truthMedian = obj["truthMedian"]
             truthMode = obj["truthMode"]
             label = obj["label"]
 
-            instance = [count, instance_id, title, description, keywords, truthMean, truthMedian, truthMode, label]
+            instance = [count, instance_id, title, description, content, keywords, truthMean, truthMedian, truthMode, label]
             data.append(instance)
             count += 1
 
