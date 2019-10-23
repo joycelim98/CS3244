@@ -4,7 +4,7 @@
 The CSV file to be used to create the input instance dataframes can be found [here](https://github.com/sanjukta99/CS3244Project/blob/master/extracted_features.csv)
 
 ### Description of each column of *extracted_features.csv*
-1. **instance** - Serial number of each instance. The CSV has only 500 instances
+1. **instance** - Serial number of each instance. 
 2. **total_tokens_title** - Total number of tokens (words + grammatical signs like !, ?, etc.) in the article's title
 3. **total_tokens_content** - Total number of tokens (words + grammatical signs like !, ?, etc.) in the article's content
 4. **total_words_title** - Total number of words in the article's title
