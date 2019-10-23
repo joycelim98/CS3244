@@ -24,7 +24,7 @@ num_instances = df.shape[0]
 
 for i in range(num_instances):
     instance = i + 1
-    title = df.loc["{}".format(instance) ,"title"]
+    title = df.loc["{}".format(instance), "title"]
     content = df.loc["{}".format(instance) ,"content"]
 
     #Using TextBlob to tokenize into tokens and words
@@ -137,6 +137,10 @@ for i in range(num_instances):
 
     data.append(instance)
 
+    print("progress: %d / %d\r" % (i+1, num_instances), end="", flush=True)
+
+print("\nDONE processing. Now writing to csv")
+
 with open('extracted_features.csv', 'w') as csvFile:
     writer = csv.writer(csvFile)
     for row in data:
@@ -145,25 +149,3 @@ with open('extracted_features.csv', 'w') as csvFile:
 
 csvFile.close()
 
-
-
-
-
-
-
-
-
-
-
-
-    
-            
-
-
-
-
-
-
-
-
-    
