@@ -14,8 +14,8 @@ data = [["instance", "total_tokens_title", "total_tokens_content", "total_words_
 , "count_exclamations_content", "proportion_exclamations_content", "count_question_title", "proportion_question_title"
 , "count_question_content", "proportion_question_content", "count_allcaps_title", "proportion_allcaps_title", "count_allcaps_content"
 , "proportion_allcaps_content", "count_contractions_title", "proportion_contractions_title", "count_contractions_content"
-, "proportion_contractions_content", "count_words_in_title_in_content", "proportion_words_in_title_in_content"
-, "sentiment_title"]]
+, "proportion_contractions_content", "count_words_in_title_in_content", "proportion_words_in_title_in_content", "sentiment_title", 
+"truth_mean", "truth_median", "truth_mode", "label"]]
 
 stop_words = set(stopwords.words('english'))
 
@@ -26,6 +26,12 @@ for i in range(num_instances):
     instance = i + 1
     title = df.loc["{}".format(instance), "title"]
     content = df.loc["{}".format(instance) ,"content"]
+
+    # include labels and "ground truth"
+    truth_mean = df.loc["{}".format(instance), "truthMean"]
+    truth_median = df.loc["{}".format(instance), "truthMedian"]
+    truth_mode = df.loc["{}".format(instance), "truthMode"]
+    label = df.loc["{}".format(instance), "label"]
 
     #Using TextBlob to tokenize into tokens and words
     blob_title = TextBlob(title)
@@ -133,7 +139,7 @@ for i in range(num_instances):
     , count_question_content, proportion_question_content, count_allcaps_title, proportion_allcaps_title, count_allcaps_content
     , proportion_allcaps_content, count_contractions_title, proportion_contractions_title, count_contractions_content
     , proportion_contractions_content, count_words_in_title_in_content, proportion_words_in_title_in_content
-    , sentiment_title]
+    , sentiment_title, truth_mean, truth_median, truth_mode, label]
 
     data.append(instance)
 
