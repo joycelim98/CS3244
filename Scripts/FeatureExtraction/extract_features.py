@@ -7,6 +7,8 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords 
 from textblob import TextBlob
 from contractions import contractions_dict
+from check_hyperlink import is_hyperlink
+from word_5W1H import starts_with_5W1H
 import csv
 
 data = [["instance", "total_tokens_title", "total_tokens_content", "total_words_title", "total_words_content"
@@ -14,8 +16,9 @@ data = [["instance", "total_tokens_title", "total_tokens_content", "total_words_
 , "count_exclamations_content", "proportion_exclamations_content", "count_question_title", "proportion_question_title"
 , "count_question_content", "proportion_question_content", "count_allcaps_title", "proportion_allcaps_title", "count_allcaps_content"
 , "proportion_allcaps_content", "count_contractions_title", "proportion_contractions_title", "count_contractions_content"
-, "proportion_contractions_content", "count_words_in_title_in_content", "proportion_words_in_title_in_content", "sentiment_title", 
-"truth_mean", "truth_median", "truth_mode", "label"]]
+, "proportion_contractions_content", "count_words_in_title_in_content", "proportion_words_in_title_in_content", "sentiment_title"
+, "starts_with_number_content", "len_longest_word_content", "starts_with_5W1H_content", "starts_with_5W1H_title"
+, "truth_mean", "truth_median", "truth_mode", "label"]]
 
 stop_words = set(stopwords.words('english'))
 
@@ -59,6 +62,27 @@ for i in range(num_instances):
     total_filtered_words_title = len(filtered_words_title)
     total_filtered_words_content = len(filtered_words_content)
 
+    #whether the content starts with a number
+    split_first_word_content = content.split(" ", 1)
+    first_word_content = split_first_word_content[0]
+    starts_with_number_content = any(i.isdigit() for i in first_word_content)
+    starts_with_number_content = 1 if starts_with_number_content else 0
+
+    #length of longest word in content
+    #excludes hyperlinks
+    nonhyperlink_tokens_content = [word for word in tokens_content if not is_hyperlink(word)]
+    len_longest_word_content = 0
+    for word in nonhyperlink_tokens_content:
+        if len(word) > len_longest_word_content:
+            len_longest_word_content = len(word)
+
+    #whether content starts with 5W1H
+    starts_with_5W1H_content = starts_with_5W1H(first_word_content)
+
+    #whether title starts with 5W1H
+    split_first_word_title = title.split(" ", 1)
+    first_word_title = split_first_word_title[0]
+    starts_with_5W1H_title = starts_with_5W1H(first_word_title)
 
     ### 
     # Proportion of Total number of exclamation marks to Total number of tokens, 
@@ -138,8 +162,9 @@ for i in range(num_instances):
     , count_exclamations_content, proportion_exclamations_content, count_question_title, proportion_question_title
     , count_question_content, proportion_question_content, count_allcaps_title, proportion_allcaps_title, count_allcaps_content
     , proportion_allcaps_content, count_contractions_title, proportion_contractions_title, count_contractions_content
-    , proportion_contractions_content, count_words_in_title_in_content, proportion_words_in_title_in_content
-    , sentiment_title, truth_mean, truth_median, truth_mode, label]
+    , proportion_contractions_content, count_words_in_title_in_content, proportion_words_in_title_in_content, sentiment_title
+    , starts_with_number_content, len_longest_word_content, starts_with_5W1H_content, starts_with_5W1H_title
+    , truth_mean, truth_median, truth_mode, label]
 
     data.append(instance)
 

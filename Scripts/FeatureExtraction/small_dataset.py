@@ -47,7 +47,6 @@ def get_small_dataset():
     grandparent_dir = os.path.dirname(parent_dir)
 
     fileName = os.path.join(grandparent_dir, "InitialDataset/instances_extracted_SMALL.jsonl")
-    # fileName = "C://Users//sanjukta_laptop//Documents//CS3244Project//ExtractedDataset////instances_extracted_SMALL.jsonl"
     return get_data(fileName)
 
 
