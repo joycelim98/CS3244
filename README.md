@@ -30,6 +30,12 @@ The CSV file to be used to create the input instance dataframes can be found [he
 24. **count_words_in_title_in_content** - Total number of times the filtered_words_title appear in the article's content. Duplicates have been handled
 25. **proportion_words_in_title_in_content** - count_words_in_title_in_content divided by the total number of words in the content
 26. **sentiment_title** - using TextBlob's sentiment function to determine the polarity of the article's title
+27. **starts_with_number_title** - Whether or not the title starts with a number
+28. **starts_with_number_content** - Whether or not the content starts with a number (i.e. first token is a number)
+29. **len_longest_word_content** - Length of the longest word in the content, excluding (most) urls
+30. **starts_with_5W1H_content** - Whether or not the content starts with one of the 5W1H
+31. **starts_with_5W1H_title** - Whether or not the title starts with one of the 5W1H
+,
 
 ## Acknowledgements
 [Preprocessing of contractions and content of contractions.py](https://medium.com/@pemagrg/pre-processing-text-in-python-ad13ea544dae)

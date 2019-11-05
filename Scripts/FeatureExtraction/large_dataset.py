@@ -7,7 +7,7 @@ import os
 import pandas as pd
 
 # to read extracted data from jsonl file
-def read_data(fileName):
+def read_data(fileName, start, end):
     data = [["", "id", "title", "description", "content", "keywords", "truthMean", "truthMedian", "truthMode", "label"]]
     count = 1
     
@@ -17,23 +17,28 @@ def read_data(fileName):
             title = obj["title"]
             description = obj["description"]
             content = obj["content"]
+            if content == "":
+                continue
             keywords = obj["keywords"]
             truthMean = obj["truthMean"]
             truthMedian = obj["truthMedian"]
             truthMode = obj["truthMode"]
             label = obj["label"]
 
-            instance = [count, instance_id, title, description, content, keywords, truthMean, truthMedian, truthMode, label]
-            data.append(instance)
+            instance = [count-start, instance_id, title, description, content, keywords, truthMean, truthMedian, truthMode, label]
+            if count > start:
+                data.append(instance)
             count += 1
+            if count > end:
+                break
 
     data = np.array(data)
     return data
 
 # to get data packaged as pandas dataframe
-def get_data(fileName):
+def get_data(fileName, start, end):
     # gets raw data as a np array
-    data_raw = read_data(fileName)
+    data_raw = read_data(fileName, start, end)
 
     # convert np array into pandas dataframe
     data = pd.DataFrame(data=data_raw[1:, 1:],
@@ -42,11 +47,11 @@ def get_data(fileName):
 
     return data
 
-def get_small_dataset():
+def get_large_dataset(start, end):
     parent_dir = os.path.dirname(os.getcwd())
     grandparent_dir = os.path.dirname(parent_dir)
 
     fileName = os.path.join(grandparent_dir, "InitialDataset/instances_extracted_large.jsonl")
-    return get_data(fileName)
+    return get_data(fileName, start, end)
 
 
