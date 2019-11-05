@@ -17,7 +17,7 @@ data = [["instance", "total_tokens_title", "total_tokens_content", "total_words_
 , "count_question_content", "proportion_question_content", "count_allcaps_title", "proportion_allcaps_title", "count_allcaps_content"
 , "proportion_allcaps_content", "count_contractions_title", "proportion_contractions_title", "count_contractions_content"
 , "proportion_contractions_content", "count_words_in_title_in_content", "proportion_words_in_title_in_content", "sentiment_title"
-, "starts_with_number_content", "len_longest_word_content", "starts_with_5W1H_content", "starts_with_5W1H_title"
+, "starts_with_number_title", "starts_with_number_content", "len_longest_word_content", "starts_with_5W1H_content", "starts_with_5W1H_title"
 , "truth_mean", "truth_median", "truth_mode", "label"]]
 
 stop_words = set(stopwords.words('english'))
@@ -83,6 +83,13 @@ for i in range(num_instances):
     split_first_word_title = title.split(" ", 1)
     first_word_title = split_first_word_title[0]
     starts_with_5W1H_title = starts_with_5W1H(first_word_title)
+
+    #whether title starts with a number
+    split_first_word_title = title.split(" ", 1)
+    first_word_title = split_first_word_title[0]
+    starts_with_number_title = any(i.isdigit() for i in first_word_content)
+    starts_with_number_title = 1 if starts_with_number_content else 0
+    
 
     ### 
     # Proportion of Total number of exclamation marks to Total number of tokens, 
@@ -163,12 +170,12 @@ for i in range(num_instances):
     , count_question_content, proportion_question_content, count_allcaps_title, proportion_allcaps_title, count_allcaps_content
     , proportion_allcaps_content, count_contractions_title, proportion_contractions_title, count_contractions_content
     , proportion_contractions_content, count_words_in_title_in_content, proportion_words_in_title_in_content, sentiment_title
-    , starts_with_number_content, len_longest_word_content, starts_with_5W1H_content, starts_with_5W1H_title
+    , starts_with_number_title, starts_with_number_content, len_longest_word_content, starts_with_5W1H_content, starts_with_5W1H_title
     , truth_mean, truth_median, truth_mode, label]
 
     data.append(instance)
 
-    print("progress: %d / %d\r" % (i+1, num_instances), end="", flush=True)
+    print("progress: %d / %d\r\n" % (i+1, num_instances), end="", flush=True)
 
 print("\nDONE processing. Now writing to csv")
 
