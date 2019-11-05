@@ -2,9 +2,11 @@
 template to begin feature extraction
 """
 from small_dataset import get_small_dataset
+#from large_dataset import get_large_dataset
 import pandas as pd
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords 
+from nltk.tokenize import word_tokenize, sent_tokenize
+from nltk.corpus import stopwords
+from nltk.tag import pos_tag
 from textblob import TextBlob
 from contractions import contractions_dict
 from check_hyperlink import is_hyperlink
@@ -18,11 +20,13 @@ data = [["instance", "total_tokens_title", "total_tokens_content", "total_words_
 , "proportion_allcaps_content", "count_contractions_title", "proportion_contractions_title", "count_contractions_content"
 , "proportion_contractions_content", "count_words_in_title_in_content", "proportion_words_in_title_in_content", "sentiment_title"
 , "starts_with_number_title", "starts_with_number_content", "len_longest_word_content", "starts_with_5W1H_content", "starts_with_5W1H_title"
-, "truth_mean", "truth_median", "truth_mode", "label"]]
+, "number_of_proper_nouns_in_content", "proportion_number_proper_nouns_in_content", "truth_mean", "truth_median", "truth_mode", "label"]]
 
 stop_words = set(stopwords.words('english'))
 
+#df = get_large_dataset()
 df = get_small_dataset()
+
 num_instances = df.shape[0]
 
 for i in range(num_instances):
@@ -35,6 +39,7 @@ for i in range(num_instances):
     truth_median = df.loc["{}".format(instance), "truthMedian"]
     truth_mode = df.loc["{}".format(instance), "truthMode"]
     label = df.loc["{}".format(instance), "label"]
+        
 
     #Using TextBlob to tokenize into tokens and words
     blob_title = TextBlob(title)
@@ -45,6 +50,10 @@ for i in range(num_instances):
     tokens_content = blob_content.tokens
     words_content = blob_content.words
 
+    #determining number of proper nouns in content
+    tagged_content = pos_tag(words_content)
+    number_of_proper_nouns_in_content = len([word for word,pos in tagged_content if pos == 'NNP'])
+
     #filtering the words to remove stop words
     filtered_words_title = {w for w in words_title if not w in stop_words}
 
@@ -53,6 +62,10 @@ for i in range(num_instances):
     #total number of tokens
     total_tokens_title = len(blob_title.tokens)
     total_tokens_content = len(blob_content.tokens)
+
+    #TESTING
+    if total_tokens_content == 0:
+        continue
 
     #total number of words
     total_words_title = len(words_title)
@@ -89,7 +102,9 @@ for i in range(num_instances):
     first_word_title = split_first_word_title[0]
     starts_with_number_title = any(i.isdigit() for i in first_word_content)
     starts_with_number_title = 1 if starts_with_number_content else 0
-    
+
+    ### Proportion of the number of proper nouns in content
+    proportion_number_proper_nouns_in_content = number_of_proper_nouns_in_content/total_words_content
 
     ### 
     # Proportion of Total number of exclamation marks to Total number of tokens, 
@@ -171,15 +186,15 @@ for i in range(num_instances):
     , proportion_allcaps_content, count_contractions_title, proportion_contractions_title, count_contractions_content
     , proportion_contractions_content, count_words_in_title_in_content, proportion_words_in_title_in_content, sentiment_title
     , starts_with_number_title, starts_with_number_content, len_longest_word_content, starts_with_5W1H_content, starts_with_5W1H_title
-    , truth_mean, truth_median, truth_mode, label]
+    , number_of_proper_nouns_in_content, proportion_number_proper_nouns_in_content, truth_mean, truth_median, truth_mode, label]
 
     data.append(instance)
 
-    print("progress: %d / %d\r\n" % (i+1, num_instances), end="", flush=True)
+    #print("progress: %d / %d\r\n" % (i+1, num_instances), end="", flush=True)
 
 print("\nDONE processing. Now writing to csv")
 
-with open('extracted_features.csv', 'w') as csvFile:
+with open('extracted_features.csv', 'w', newline = '') as csvFile:
     writer = csv.writer(csvFile)
     for row in data:
         if row:
