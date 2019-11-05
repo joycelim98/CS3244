@@ -2,9 +2,11 @@
 template to begin feature extraction
 """
 from small_dataset import get_small_dataset
+#from large_dataset import get_large_dataset
 import pandas as pd
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords 
+from nltk.tokenize import word_tokenize, sent_tokenize
+from nltk.corpus import stopwords
+from nltk.tag import pos_tag
 from textblob import TextBlob
 from contractions import contractions_dict
 from check_hyperlink import is_hyperlink
@@ -18,9 +20,12 @@ data = [["instance", "total_tokens_title", "total_tokens_content", "total_words_
 , "proportion_allcaps_content", "count_contractions_title", "proportion_contractions_title", "count_contractions_content"
 , "proportion_contractions_content", "count_words_in_title_in_content", "proportion_words_in_title_in_content", "sentiment_title"
 , "starts_with_number_title", "starts_with_number_content", "len_longest_word_content", "starts_with_5W1H_content", "starts_with_5W1H_title"
-, "truth_mean", "truth_median", "truth_mode", "label"]]
+, "number_of_proper_nouns_in_content", "truth_mean", "truth_median", "truth_mode", "label"]]
 
 stop_words = set(stopwords.words('english'))
+
+#only running 15000 cause my com small memory
+#df = get_large_dataset(1)
 
 df = get_small_dataset()
 num_instances = df.shape[0]
@@ -35,6 +40,7 @@ for i in range(num_instances):
     truth_median = df.loc["{}".format(instance), "truthMedian"]
     truth_mode = df.loc["{}".format(instance), "truthMode"]
     label = df.loc["{}".format(instance), "label"]
+        
 
     #Using TextBlob to tokenize into tokens and words
     blob_title = TextBlob(title)
@@ -44,6 +50,10 @@ for i in range(num_instances):
     blob_content = TextBlob(content)
     tokens_content = blob_content.tokens
     words_content = blob_content.words
+
+    #determining number of proper nouns in content
+    tagged_content = pos_tag(words_content)
+    number_of_proper_nouns_in_content = len([word for word,pos in tagged_content if pos == 'NNP'])
 
     #filtering the words to remove stop words
     filtered_words_title = {w for w in words_title if not w in stop_words}
@@ -171,7 +181,7 @@ for i in range(num_instances):
     , proportion_allcaps_content, count_contractions_title, proportion_contractions_title, count_contractions_content
     , proportion_contractions_content, count_words_in_title_in_content, proportion_words_in_title_in_content, sentiment_title
     , starts_with_number_title, starts_with_number_content, len_longest_word_content, starts_with_5W1H_content, starts_with_5W1H_title
-    , truth_mean, truth_median, truth_mode, label]
+    , number_of_proper_nouns_in_content, truth_mean, truth_median, truth_mode, label]
 
     data.append(instance)
 
