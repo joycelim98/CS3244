@@ -17,6 +17,8 @@ def read_data(fileName):
             title = obj["title"]
             description = obj["description"]
             content = obj["content"]
+            if content == "":
+                continue
             keywords = obj["keywords"]
             truthMean = obj["truthMean"]
             truthMedian = obj["truthMedian"]
