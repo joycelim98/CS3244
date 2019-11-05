@@ -20,7 +20,7 @@ data = [["instance", "total_tokens_title", "total_tokens_content", "total_words_
 , "proportion_allcaps_content", "count_contractions_title", "proportion_contractions_title", "count_contractions_content"
 , "proportion_contractions_content", "count_words_in_title_in_content", "proportion_words_in_title_in_content", "sentiment_title"
 , "starts_with_number_title", "starts_with_number_content", "len_longest_word_content", "starts_with_5W1H_content", "starts_with_5W1H_title"
-, "number_of_proper_nouns_in_content", "truth_mean", "truth_median", "truth_mode", "label"]]
+, "number_of_proper_nouns_in_content", "proportion_number_proper_nouns_in_content", "truth_mean", "truth_median", "truth_mode", "label"]]
 
 stop_words = set(stopwords.words('english'))
 
@@ -64,6 +64,10 @@ for i in range(num_instances):
     total_tokens_title = len(blob_title.tokens)
     total_tokens_content = len(blob_content.tokens)
 
+    #TESTING
+    if total_tokens_content == 0:
+        continue
+
     #total number of words
     total_words_title = len(words_title)
     total_words_content = len(words_content)
@@ -99,7 +103,9 @@ for i in range(num_instances):
     first_word_title = split_first_word_title[0]
     starts_with_number_title = any(i.isdigit() for i in first_word_content)
     starts_with_number_title = 1 if starts_with_number_content else 0
-    
+
+    ### Proportion of the number of proper nouns in content
+    proportion_number_proper_nouns_in_content = number_of_proper_nouns_in_content/total_words_content
 
     ### 
     # Proportion of Total number of exclamation marks to Total number of tokens, 
@@ -181,15 +187,15 @@ for i in range(num_instances):
     , proportion_allcaps_content, count_contractions_title, proportion_contractions_title, count_contractions_content
     , proportion_contractions_content, count_words_in_title_in_content, proportion_words_in_title_in_content, sentiment_title
     , starts_with_number_title, starts_with_number_content, len_longest_word_content, starts_with_5W1H_content, starts_with_5W1H_title
-    , number_of_proper_nouns_in_content, truth_mean, truth_median, truth_mode, label]
+    , number_of_proper_nouns_in_content, proportion_number_proper_nouns_in_content, truth_mean, truth_median, truth_mode, label]
 
     data.append(instance)
 
-    print("progress: %d / %d\r\n" % (i+1, num_instances), end="", flush=True)
+    #print("progress: %d / %d\r\n" % (i+1, num_instances), end="", flush=True)
 
 print("\nDONE processing. Now writing to csv")
 
-with open('extracted_features.csv', 'w') as csvFile:
+with open('extracted_features.csv', 'w', newline = '') as csvFile:
     writer = csv.writer(csvFile)
     for row in data:
         if row:
