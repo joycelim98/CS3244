@@ -42,7 +42,7 @@ def get_data(fileName):
 
     return data
 
-def get_small_dataset():
+def get_large_dataset():
     parent_dir = os.path.dirname(os.getcwd())
     grandparent_dir = os.path.dirname(parent_dir)
 
