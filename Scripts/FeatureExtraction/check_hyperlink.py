@@ -1,5 +1,9 @@
+import re
+
+hyperlink_pattern = "^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$"
+
 def is_hyperlink(word):
-    if '/' in word or 'www' in word or '.com' in word or '.gov' in word:
+    if re.search(hyperlink_pattern, word):
         return 1
 
     return 0
