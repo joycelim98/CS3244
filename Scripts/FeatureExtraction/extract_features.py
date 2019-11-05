@@ -24,10 +24,9 @@ data = [["instance", "total_tokens_title", "total_tokens_content", "total_words_
 
 stop_words = set(stopwords.words('english'))
 
-#only running 15000 cause my com small memory
-#df = get_large_dataset(1)
-
+#df = get_large_dataset()
 df = get_small_dataset()
+
 num_instances = df.shape[0]
 
 for i in range(num_instances):
