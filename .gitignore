@@ -5,9 +5,6 @@ env
 
 Scripts/FeatureExtraction/__pycache__/
 CNN-kh-n-joyce/cc.en.300.bin
-CNN-kh-n-joyce/model3weights.01-0.61.hdf5
-CNN-kh-n-joyce/model3weights.02-0.59.hdf5
-CNN-kh-n-joyce/model3weights.03-0.57.hdf5
-CNN-kh-n-joyce/model3weights.04-0.55.hdf5
 *.pyc
-*.hdf5
+CNN-kh-n-joyce/model1weights.01-0.74.hdf5
+CNN-kh-n-joyce/model1weights.01-0.74.hdf5
