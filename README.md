@@ -35,6 +35,8 @@ The CSV file to be used to create the input instance dataframes can be found [he
 29. **len_longest_word_content** - Length of the longest word in the content, excluding (most) urls
 30. **starts_with_5W1H_content** - Whether or not the content starts with one of the 5W1H
 31. **starts_with_5W1H_title** - Whether or not the title starts with one of the 5W1H
+32. **number_of_proper_nouns_in_content**
+33. **proportion_number_proper_nouns_in_content**
 ,
 
 ## Acknowledgements
