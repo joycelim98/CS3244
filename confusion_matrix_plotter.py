@@ -58,11 +58,19 @@ def plot_cm_n_calculate_F1_score(confusion_matrix, normalise = True, save_fig = 
     plt.clf()
 
 
-cm_rf = [[2397, 511], [1340, 1612]]
-cm_knn = [[2054, 854], [1112, 1840]]
-cm_bag = [[2653,253], [1858, 1094]]
+##cm_rf = [[2397, 511], [1340, 1612]]
+##cm_knn = [[2054, 854], [1112, 1840]]
+##cm_bag = [[2653,253], [1858, 1094]]
+
+cm_rf = [[753, 235], [450, 550]]
+cm_knn = [[753, 235], [450, 550]]
+cm_bag = [[686, 302], [319, 681]]
+
 
 labelled = [(cm_rf, "Random Forest"), (cm_knn, "k-Nearest-Neighbours"), (cm_bag, "Bagging")]
 
 for i in labelled:
     plot_cm_n_calculate_F1_score(i[0], method_name = i[1])
+
+##cm_log_reg = [[0.01143451,0.98856549],[0.02863203,0.97136797]]
+##plot_cm_n_calculate_F1_score(cm_log_reg, method_name = "Logistic Regression", normalise = False)
