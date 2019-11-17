@@ -19,7 +19,8 @@ data = [["instance", "total_tokens_title", "total_tokens_content", "total_words_
 , "proportion_allcaps_content", "count_contractions_title", "proportion_contractions_title", "count_contractions_content"
 , "proportion_contractions_content", "count_words_in_title_in_content", "proportion_words_in_title_in_content", "sentiment_title"
 , "starts_with_number_title", "starts_with_number_content", "len_longest_word_content", "starts_with_5W1H_content", "starts_with_5W1H_title"
-, "number_of_proper_nouns_in_content", "proportion_number_proper_nouns_in_content", "truth_mean", "truth_median", "truth_mode", "label"]]
+, "number_of_proper_nouns_in_content", "proportion_number_proper_nouns_in_content"
+, "proportion_of_stop_words_in_title", "truth_mean", "truth_median", "truth_mode", "label"]]
 
 stop_words = set(stopwords.words('english'))
 
@@ -60,6 +61,13 @@ def extract_features(start, end, count):
         #total number of tokens
         total_tokens_title = len(blob_title.tokens)
         total_tokens_content = len(blob_content.tokens)
+
+        #TESTING
+        if total_tokens_content == 0:
+            continue
+
+        #find the proportion of stop words in the title
+        proportion_of_stop_words_in_title = len([i for i in words_title if i in stop_words])/len(words_title)
 
         #total number of words
         total_words_title = len(words_title)
@@ -181,11 +189,12 @@ def extract_features(start, end, count):
         , proportion_allcaps_content, count_contractions_title, proportion_contractions_title, count_contractions_content
         , proportion_contractions_content, count_words_in_title_in_content, proportion_words_in_title_in_content, sentiment_title
         , starts_with_number_title, starts_with_number_content, len_longest_word_content, starts_with_5W1H_content, starts_with_5W1H_title
-        , number_of_proper_nouns_in_content, proportion_number_proper_nouns_in_content, truth_mean, truth_median, truth_mode, label]
+        , number_of_proper_nouns_in_content, proportion_number_proper_nouns_in_content
+        , proportion_of_stop_words_in_title, truth_mean, truth_median, truth_mode, label]
         
         data.append(instance)
 
-        print("progress of batch %d: %d / %d\r" % (count, i+1, num_instances), end="", flush=True)
+#        print("progress of batch %d: %d / %d\r\n" % (count, i+1, num_instances), end="", flush=True)
 
 
 
