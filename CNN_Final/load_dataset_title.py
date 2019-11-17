@@ -21,8 +21,7 @@ def read_data(fileName):
             instance = [count, content, label]
             data.append(instance)
             count += 1
-    print(len(data))
-    print("hi")
+    print(len(data), "data entries loaded")
     data = np.array(data)
     return data
 
