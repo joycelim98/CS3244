@@ -37,7 +37,6 @@ The CSV file to be used to create the input instance dataframes can be found [he
 31. **starts_with_5W1H_title** - Whether or not the title starts with one of the 5W1H
 32. **number_of_proper_nouns_in_content** - Total number of proper nouns that appear in the article's content. 
 33. **proportion_number_proper_nouns_in_content** - number_of_proper_nouns_in_content divided by the total number of words in the content
-,
 
 ## Acknowledgements
 [Preprocessing of contractions and content of contractions.py](https://medium.com/@pemagrg/pre-processing-text-in-python-ad13ea544dae)
